@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Planet Revolve</title>
+    <meta name="viewport" content="Planet Revolve" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.0.0/dist/aframe-environment-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="/script.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <script>
+      AFRAME.registerComponent("start", {
+        init: function () {
+          this.el.addEventListener("click", function (e) {
+            let revolve = document.querySelector("#revolve");
+            revolve.setAttribute("visible", "false");
+            planetRevolve(document.querySelector("#mercury"), -18.9, 4.15); //88日
+            planetRevolve(document.querySelector("#venus"), -22.2, 1.63); //224.7日
+            planetRevolve(document.querySelector("#erthrap"), -25, 1); //365日を速度1とする
+            planetRevolve(document.querySelector("#marsrap"), -30.2, 0.53); //687日
+            planetRevolve(document.querySelector("#jupiterrap"), -67, 0.084); //11.86年
+            planetRevolve(document.querySelector("#saturnrap"), -110.4, 0.034); //29.46年
+            planetRevolve(document.querySelector("#uranusrap"), -206.9, 0.012); //84年
+            planetRevolve(document.querySelector("#neptunerap"), -315.7, 0.006); //164.8年
+            planetRevolve(document.querySelector("#plutorap"), -410.4, 0.004); //248年
+          });
+        },
+      });
+    </script>
+
+    <style>
+      .joystick-frame {
+        width: 350px;
+        height: 350px;
+        position: fixed;
+        background: rgb(229, 229, 229);
+        border-radius: 50%;
+        top: 70%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+      }
+      .joystick-ball {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        background: blue;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="joystick-frame" class="joystick-frame">
+      <div id="joystick-ball" class="joystick-ball"></div>
+    </div>
+    <a-scene>
+      <a-asset-item
+        id="suisei"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Mercury.glb?v=1718871066272"
+      ></a-asset-item>
+      <a-asset-item
+        id="kinsei"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Venus.glb?v=1718871079950"
+      ></a-asset-item>
+      <a-asset-item
+        id="chikyu"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Earth.glb?v=1718789223586"
+      ></a-asset-item>
+      <a-asset-item
+        id="kasei"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Mars.glb?v=1718871096932"
+      ></a-asset-item>
+      <a-asset-item
+        id="mokusei"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Jupiter.glb?v=1718874600987"
+      ></a-asset-item>
+      <a-asset-item
+        id="dosei"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/saturnsphere.glb?v=1719216808714"
+      ></a-asset-item>
+      <a-asset-item
+        id="doseiring"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/saturnring.glb?v=1720154246366"
+      ></a-asset-item>
+      <a-asset-item
+        id="tenousei"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Uranus.glb?v=1718874640778"
+      ></a-asset-item>
+      <a-asset-item
+        id="tenouseiring"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/uranusring.glb?v=1719825777167"
+      ></a-asset-item>
+
+      <a-asset-item
+        id="kaiousei"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Neptune.glb?v=1718874653603"
+      ></a-asset-item>
+      <a-asset-item
+        id="meiousei"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Pluto.glb?v=1719561622818"
+      ></a-asset-item>
+      <a-asset-item
+        id="tuki"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Moon.glb?v=1719561642517"
+      ></a-asset-item>
+
+      <a-sky
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/galaxy3.png?v=1720250038968"
+      >
+      </a-sky>
+      <a-camera
+        id="camera"
+        rotation="0 0 0"
+        position="0 0 0"
+        wasd-controls="enabled:true"
+      >
+        <a-entity cursor="rayOrigin: mouse"> </a-entity>
+        <a-plane
+          id="revolve"
+          start
+          position="0 1.4 -2"
+          height="0.3"
+          width="0.7"
+          color="green"
+        >
+          <a-text
+            position="-0.28 0 0"
+            width="4"
+            value="公転スタート"
+            color="white"
+            font="PixelMplus10-Regular-msdf.json"
+            font-image="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/PixelMplus10-Regular-msdf.png?v=1719812769926"
+            negate="false"
+          >
+          </a-text>
+        </a-plane>
+      </a-camera>
+
+      <a-sphere
+        id="sun"
+        position="0 0 0"
+        scale="17 17 17"
+        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/2k_sun.jpg?v=1720245541959"
+      >
+        <a-sphere
+                  radius="1.03"
+          color="red"
+          opacity="0.25"
+                  animation="property: radius; from:1; to: 1.05; dur: 5000; dir: alternate; loop: true"
+        ></a-sphere>
+
+        <script>
+          planetRotate(document.querySelector("#sun"), 0.06); //598秒で1週
+        </script>
+      </a-sphere>
+
+      <a-entity
+        id="mercury"
+        position="0 0 -18.9"
+        scale="0.382 0.382 0.382"
+        gltf-model="#suisei"
+      >
+        <script>
+          planetRotate(document.querySelector("#mercury"), 0.026); //1366秒で1週
+        </script>
+      </a-entity>
+      <a-entity
+        id="venus"
+        position="0 0 -22.2"
+        rotation="0 0 -177.3"
+        scale="0.949 0.949 0.949"
+        gltf-model="#kinsei"
+      ></a-entity>
+      <a-entity
+        id="erthrap"
+        position="0 0 -25"
+        rotation="0 0 -23.4"
+        scale="1 1 1"
+      >
+        <a-entity id="erth" gltf-model="#chikyu">
+          <script>
+            planetRotate(document.querySelector("#erth"), 1.53); //23.56秒で1週
+          </script>
+          <a-entity
+            id="moon"
+            position="0 0 1.3"
+            rotation="0 0 -18.3"
+            scale="0.272 0.272 0.272"
+            gltf-model="#tuki"
+          >
+            <script>
+              planetRevolve(document.querySelector("#moon"), 1.3, 0.055); //27.3日
+              planetRotate(document.querySelector("#moon"), 0.055); //655.2秒で1週
+            </script>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="marsrap"
+        position="0 0 -30.2"
+        rotation="0 0 -25.2"
+        scale="0.532 0.532 0.532"
+      >
+        <a-entity id="mars" gltf-model="#kasei">
+          <script>
+            planetRotate(document.querySelector("#mars"), 1.48); //24.36秒で1週
+          </script>
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="jupiterrap"
+        position="0 0 -67"
+        rotation="0 0 -3.1"
+        scale="11.2 11.2 11.2"
+      >
+        <a-entity id="jupiter" gltf-model="#mokusei">
+          <script>
+            planetRotate(document.querySelector("#jupiter"), 3.77); //9.55秒で1週
+          </script>
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="saturnrap"
+        position="0 0 -110.4"
+        rotation="0 0 -26.7"
+        scale="9.45 9.45 9.45"
+      >
+        <a-entity id="saturn" gltf-model="#dosei">
+          <script>
+            planetRotate(document.querySelector("#saturn"), 3.46); //10.4秒で1週
+          </script>
+        </a-entity>
+        <a-entity gltf-model="#doseiring"></a-entity>
+        <a-entity
+          position="0 -0.01 0"
+          rotation="0 0 180"
+          gltf-model="#doseiring"
+        ></a-entity>
+      </a-entity>
+
+      <a-entity
+        id="uranusrap"
+        position="0 0 -206.9"
+        rotation="0 0 -97.8"
+        scale="4 4 4"
+      >
+        <a-entity id="uranus" gltf-model="#tenousei">
+          <script>
+            planetRotate(document.querySelector("#uranus"), 2.1); //17.14秒で1週
+          </script>
+        </a-entity>
+        <a-entity gltf-model="#tenouseiring"></a-entity>
+      </a-entity>
+      <a-entity
+        id="neptunerap"
+        position="0 0 -315.7"
+        rotation="0 0 -28.3"
+        scale="3.86 3.86 3.86"
+      >
+        <a-entity id="neptune" gltf-model="#kaiousei">
+          <script>
+            planetRotate(document.querySelector("#neptune"), 2.25); //16秒で1週
+          </script>
+        </a-entity>
+      </a-entity>
+      <a-entity
+        id="plutorap"
+        position="0 0 -410.4"
+        rotation="0 0 -120"
+        scale="0.186 0.186 0.186"
+      >
+        <a-entity id="pluto" gltf-model="#meiousei">
+          <script>
+            planetRotate(document.querySelector("#pluto"), 0.24); //153秒で1週
+          </script>
+        </a-entity>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      var ballCenterX; //ballの中心座標X
+      var ballCenterY; //ballの中心座標Y
+      var ballRad; //ballの中央からの角度
+      var shiftX; //ballが移動した時の中心の補正X
+      var shiftY; //ballが移動した時の中心の補正Y
+      var moveSpeed = 0; //カメラのスピード
+      var movex = 0; //ballのX->カメラ移動X方向
+      var movey = 0; //ballのY->カメラ移動Z方向
+      var moving; //ID
+      var cnt = 0; //移動回数
+      var direction; //進行方向
+      var camPos; //カメラの位置
+      var camRot; //カメラの回転
+
+      const ball = document.querySelector("#joystick-ball");
+      const ballRadius = ball.clientWidth / 2;
+      const frame = document.querySelector("#joystick-frame");
+      const frameCenterX =
+        frame.getBoundingClientRect().left + frame.clientWidth / 2;
+      const frameCenterY =
+        frame.getBoundingClientRect().top + frame.clientHeight / 2;
+      const frameRadius = frame.clientWidth / 2;
+      const camera = document.querySelector("#camera");
+
+      ball.addEventListener("touchstart", touchStart);
+      //ball.addEventListener("mousedown", touchStart);
+
+      function touchStart(e) {
+        e.preventDefault();
+        shiftX = e.touches[0].clientX - frame.clientWidth / 2;
+        shiftY = e.touches[0].clientY - frame.clientHeight / 2;
+        //shiftX = e.clientX - frame.clientWidth / 2;
+        //shiftY = e.clientY - frame.clientHeight / 2;
+        ball.style.background = "red";
+        document.addEventListener("touchmove", touchMove);
+        document.addEventListener("touchend", touchEnd);
+        //document.addEventListener("mousemove", touchMove);
+        //document.addEventListener("mouseup", touchEnd);
+      }
+
+      function touchMove(e) {
+        e.preventDefault();
+        movePosition(e.touches[0].clientX, e.touches[0].clientY);
+        //let elemBelow = document.elementFromPoint(e.clientX, e.clientY);
+        //movePosition(e.clientX, e.clientY);
+        if (cnt == 0) {
+          moving = setInterval(camMove, 50);
+        }
+        cnt++;
+      }
+
+      function touchEnd(e) {
+        e.preventDefault();
+        document.removeEventListener("touchmove", touchMove);
+        document.removeEventListener("touchend", touchEnd);
+        //document.removeEventListener("mousemove", touchMove);
+        //document.removeEventListener("mouseup", touchEnd);
+        ball.style.background = "blue";
+        ball.style.left = "50%";
+        ball.style.top = "50%";
+        ball.style.transform = "translate(-50%, -50%)";
+        clearInterval(moving);
+        cnt = 0;
+      }
+
+      function movePosition(posx, posy) {
+        //ballの位置を設定
+        ballCenterX = ball.getBoundingClientRect().left + ballRadius;
+        ballCenterY = ball.getBoundingClientRect().top + ballRadius;
+        let ballDist = Math.sqrt(
+          Math.pow(ballCenterX - frameCenterX, 2) +
+            Math.pow(ballCenterY - frameCenterY, 2)
+        );
+        let mouseDist = Math.sqrt(
+          Math.pow(posx - frameCenterX, 2) + Math.pow(posy - frameCenterY, 2)
+        );
+
+        if (ballDist <= frameRadius && mouseDist < frameRadius) {
+          ball.style.left = posx - shiftX + "px";
+          ball.style.top = posy - shiftY + "px";
+        } else {
+          ballRad = Math.atan2(posy - frameCenterY, posx - frameCenterX);
+
+          ball.style.left =
+            frameRadius + frameRadius * Math.cos(ballRad) + "px";
+          ball.style.top = frameRadius + frameRadius * Math.sin(ballRad) + "px";
+        }
+        //スピードを設定
+        if (ballDist < frameRadius) {
+          moveSpeed = (1 * ballDist) / frameRadius;
+        } else {
+          moveSpeed = 1;
+        }
+        //向きを設定
+        ballRad = Math.atan2(
+          ballCenterY - frameCenterY,
+          ballCenterX - frameCenterX
+        );
+        if (ballRad != 0) {
+          camRot = camera.getAttribute("rotation");
+          direction = camRot.y - ((ballRad * 180) / Math.PI + 90);
+          movex = -Math.sin((direction * Math.PI) / 180);
+          movey = -Math.cos((-direction * Math.PI) / 180);
+        } else {
+          movex = 0;
+          movey = 0;
+        }
+      }
+      //カメラの移動
+      var camMove = function () {
+        camPos = camera.getAttribute("position");
+        camera.setAttribute("position", {
+          x: camPos.x + movex * moveSpeed,
+          y: camPos.y,
+          z: camPos.z + movey * moveSpeed,
+        });
+      };
+    </script>
+  </body>
+</html>
+<!--
+animation="property: radius; from:1.1; to: 1.2; dur: 2000; dir: alternate; loop: true"
+        >
+        <a-animation attribute="rotation"
+               dur="3000"
+               fill="forwards"
+               to="0 360 0"
+               repeat="indefinite"></a-animation>
+        <a-entity geometry="primitive: sphere" radius="1.2" material="color: red; transparent:true; opacity: 0.5"></a-entity>
+
+animation="property: rotation; from:0 0 24; to: 5 5 24; dur: 10000; dir: alternate; loop: true"
+-->

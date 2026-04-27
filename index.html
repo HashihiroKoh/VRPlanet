@@ -63,10 +63,6 @@
     </div>
     <a-scene>
       <a-asset-item
-        id="taiyo"
-        src="./assets/Sun.glb"
-      ></a-asset-item>
-      <a-asset-item
         id="suisei"
         src="./assets/Mercury.glb"
       ></a-asset-item>
@@ -88,19 +84,19 @@
       ></a-asset-item>
       <a-asset-item
         id="dosei"
-        src="./assets/Saturn.glb"
+        src="./assets/SaturnSphere.glb"
       ></a-asset-item>
       <a-asset-item
         id="doseiring"
-        src=""
+        src="./assets/SaturnRing.glb"
       ></a-asset-item>
       <a-asset-item
         id="tenousei"
-        src="./assets/Uranus.glb"
+        src="./assets/UranusSphere.glb"
       ></a-asset-item>
       <a-asset-item
         id="tenouseiring"
-        src=""
+        src="./assets/UranusRing.glb"
       ></a-asset-item>
 
       <a-asset-item
@@ -117,7 +113,7 @@
       ></a-asset-item>
 
       <a-sky
-        src="./assets/Galaxy.jpg"
+        src="./assets/Space.png"
       >
       </a-sky>
       <a-camera
@@ -140,19 +136,18 @@
             width="4"
             value="公転スタート"
             color="white"
-            font="./assets/PixelMplus10-Regular-msdf.json"
+            font="PixelMplus10-Regular-msdf.json"
             font-image="./assets/PixelMplus10-Regular-msdf.png"
             negate="false"
           >
           </a-text>
         </a-plane>
       </a-camera>
-<!--
       <a-sphere
         id="sun"
         position="0 0 0"
         scale="17 17 17"
-        src="./assets/2k_sun.jpg?v=1720245541959"
+        src="./assets/SunSphere.glb"
       >
         <a-sphere
                   radius="1.03"
@@ -165,16 +160,6 @@
           planetRotate(document.querySelector("#sun"), 0.06); //598秒で1週
         </script>
       </a-sphere>
-  -->
-      <a-entity
-        id="sun"
-        position="0 0 0"
-        scale="17 17 17"
-        gltf-model="#taiyo"
-      >
-        <script>
-          planetRotate(document.querySelector("#sun"), 0.06); //598秒で1週
-        </script>
       </a-entity>
       <a-entity
         id="mercury"

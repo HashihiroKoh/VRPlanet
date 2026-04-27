@@ -63,57 +63,61 @@
     </div>
     <a-scene>
       <a-asset-item
+        id="taiyo"
+        src="./assets/Sun.glb"
+      ></a-asset-item>
+      <a-asset-item
         id="suisei"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Mercury.glb?v=1718871066272"
+        src="./assets/Mercury.glb"
       ></a-asset-item>
       <a-asset-item
         id="kinsei"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Venus.glb?v=1718871079950"
+        src="./assets/Venus.glb"
       ></a-asset-item>
       <a-asset-item
         id="chikyu"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Earth.glb?v=1718789223586"
+        src="./assets/Earth.glb"
       ></a-asset-item>
       <a-asset-item
         id="kasei"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Mars.glb?v=1718871096932"
+        src="./assets/Mars.glb"
       ></a-asset-item>
       <a-asset-item
         id="mokusei"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Jupiter.glb?v=1718874600987"
+        src="./assets/Jupiter.glb"
       ></a-asset-item>
       <a-asset-item
         id="dosei"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/saturnsphere.glb?v=1719216808714"
+        src="./assets/Saturn.glb"
       ></a-asset-item>
       <a-asset-item
         id="doseiring"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/saturnring.glb?v=1720154246366"
+        src=""
       ></a-asset-item>
       <a-asset-item
         id="tenousei"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Uranus.glb?v=1718874640778"
+        src="./assets/Uranus.glb"
       ></a-asset-item>
       <a-asset-item
         id="tenouseiring"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/uranusring.glb?v=1719825777167"
+        src=""
       ></a-asset-item>
 
       <a-asset-item
         id="kaiousei"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Neptune.glb?v=1718874653603"
+        src="./assets/Neptune.glb"
       ></a-asset-item>
       <a-asset-item
         id="meiousei"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Pluto.glb?v=1719561622818"
+        src="./assets/Pluto.glb"
       ></a-asset-item>
       <a-asset-item
         id="tuki"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/Moon.glb?v=1719561642517"
+        src="./assets/Moon.glb"
       ></a-asset-item>
 
       <a-sky
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/galaxy3.png?v=1720250038968"
+        src="./assets/Galaxy.jpg"
       >
       </a-sky>
       <a-camera
@@ -136,19 +140,19 @@
             width="4"
             value="公転スタート"
             color="white"
-            font="PixelMplus10-Regular-msdf.json"
-            font-image="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/PixelMplus10-Regular-msdf.png?v=1719812769926"
+            font="./assets/PixelMplus10-Regular-msdf.json"
+            font-image="./assets/PixelMplus10-Regular-msdf.png"
             negate="false"
           >
           </a-text>
         </a-plane>
       </a-camera>
-
+<!--
       <a-sphere
         id="sun"
         position="0 0 0"
         scale="17 17 17"
-        src="https://cdn.glitch.global/256ca55a-10f5-4199-bfb8-b27dd00df96d/2k_sun.jpg?v=1720245541959"
+        src="./assets/2k_sun.jpg?v=1720245541959"
       >
         <a-sphere
                   radius="1.03"
@@ -161,7 +165,17 @@
           planetRotate(document.querySelector("#sun"), 0.06); //598秒で1週
         </script>
       </a-sphere>
-
+  -->
+      <a-entity
+        id="sun"
+        position="0 0 0"
+        scale="17 17 17"
+        gltf-model="#taiyo"
+      >
+        <script>
+          planetRotate(document.querySelector("#sun"), 0.06); //598秒で1週
+        </script>
+      </a-entity>
       <a-entity
         id="mercury"
         position="0 0 -18.9"
